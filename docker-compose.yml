@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+
+  db:
+    container_name: springboot-graphql-db
+    image: mysql:latest
+    environment: 
+      MYSQL_ROOT_PASSWORD: senha-mysql
+      MYSQL_DATABASE: sample
+      MYSQL_USER: sample_user
+      MYSQL_PASSWORD: sample_password
+    ports: 
+      - "3306:3306"
+    restart: always
+    network_mode: bridge
+    
+  
+  api:
+    build:
+      context: .
+    container_name: springboot-graphql
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      JAVA_ENV: dev
+      DATABASE_URL: mysql
+      DATABASE_USER: sample_user
+      DATABASE_PASSWORD: sample_password
+    network_mode: bridge
+    
+  
+    
